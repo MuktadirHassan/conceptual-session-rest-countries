@@ -6,6 +6,7 @@ const errorDiv = document.getElementById("error");
 const spinner = document.getElementById("spinner");
 
 searchBtn.addEventListener("click", function () {
+  console.log(spinner);
   const search = searchInput.value;
   if (search === "") {
     errorDiv.innerText = "Search field cannot be empty.";
@@ -18,10 +19,15 @@ searchBtn.addEventListener("click", function () {
   spinner.classList.remove("d-none");
   fetch(url)
     .then((res) => res.json())
-    .then((data) => showData(data))
+    .then((data) => {
+      // Setting a timer of 1.5s, before removing the spinnner, and showing data
+      setTimeout(() => {
+        spinner.classList.add("d-none");
+        showData(data);
+      }, 1500);
+    })
     .finally(() => {
       searchInput.value === "";
-      spinner.classList.add("d-none");
     });
 });
 
